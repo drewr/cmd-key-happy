@@ -10,5 +10,11 @@
 	<true/>
         <key>LimitLoadToSessionType</key>
         <string>Aqua</string>
+	<key>KeepAlive</key>
+	<dict>
+		<key>SuccessfulExit</key>
+		<true/>
+	</dict>
+
 </dict>
 </plist>
