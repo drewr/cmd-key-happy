@@ -25,6 +25,7 @@
 INSTALL      = /usr/bin/install
 INSTALL_ROOT = $(HOME)/.local
 
+UID = $(shell id -u)
 LAUNCHD_AGENTS_DIR = $(HOME)/Library/LaunchAgents
 LAUNCHD_LABEL = com.frobware.cmd-key-happy
 PLIST_FILE = $(LAUNCHD_AGENTS_DIR)/$(LAUNCHD_LABEL).plist
@@ -47,13 +48,11 @@ install: cmd-key-happy
 
 install-plist:
 	mkdir -p $(LAUNCHD_AGENTS_DIR)
-	-launchctl stop $(LAUNCHD_LABEL)
-	-launchctl unload $(PLIST_FILE)
+	launchctl bootout gui/$(UID)/$(LAUNCHD_LABEL)
 	$(RM) $(PLIST_FILE)
 	sed -e 's~%INSTALL_ROOT~$(INSTALL_ROOT)~' $(LAUNCHD_LABEL).plist > $(PLIST_FILE)
 	chmod 644 $(PLIST_FILE)
-	launchctl load -S Aqua $(PLIST_FILE)
-	launchctl start $(LAUNCHD_LABEL)
+	launchctl bootstrap gui/$(UID) $(PLIST_FILE)
 
 stop:
 	launchctl stop $(LAUNCHD_LABEL)
