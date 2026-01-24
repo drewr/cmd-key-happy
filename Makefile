@@ -37,6 +37,7 @@ CMD_KEY_HAPPY_BINARY = $(BUILD_DIR)/cmd-key-happy
 
 cmd-key-happy:
 	swift build -c $(BUILD_MODE)
+	codesign --force --options runtime --sign cmd-key-happy-dev $(CMD_KEY_HAPPY_BINARY)
 
 .PHONY: install install-plist
 .PHONY: start stop clean
